@@ -1,26 +1,25 @@
-/* ---------------------- Preprocessor Declaration ----------------------- */
-#include <windows.h>//Preprocessor to set console properties 
-#include <iostream>//Preprocessor to get standard input/output
-#include <conio.h>//Preprocessor to handle functionalities of the console
-#include <string>//Preprocessor to manage string inputs
-#include <fstream>//Preprocessor for file handling methods
-#include <regex>//Preprocessor to handle regular expressions 
-#include <iomanip>//Preprocessor to manipulate input output
+/* ---------------------- 전처리기 선언 ----------------------- */
+# include  < windows.h > // 콘솔 속성을 설정하기 위한 전처리기
+# include  < iostream > // 표준 입력/출력을 얻기 위한 전처리기
+# include  < conio.h > // 콘솔의 기능을 처리하는 전처리기
+# include  < string > // 문자열 입력을 관리하는 전처리기
+# include  < fstream > // 파일 처리 방법을 위한 전처리기
+# include  < regex > // 정규 표현식을 처리하기 위한 전처리기
+# include  < iomanip > // 입력 출력을 조작하는 전처리기
 /* ------------------------------ E N D ---------------------------------- */
 
 
-using namespace std;//using standard formats
+using namespace std; // 표준 형식 사용
 
 //global variables
 char un[20], pw[20];
-int lgStat = 0;//Variable to Store Login Status
-char login[20];//LOGGED USERNAME
+int lgStat = 0;// 로그인 상태를 저장할 변수
+char login[20];// 로그인된 사용자 이름
+
+void Menu();// 함수 프로토타입
 
 
-void Menu();//Function Prototypes
-
-
-/* ---------------------- Regular Expression Function - Validate input ----------------------- */
+/* ---------------------- 정규식 함수 - 입력 유효성 검사 -------------------- --- */
 bool validate(string expressions, char tests[]) {
 	regex ry(expressions);
 	cmatch result;
@@ -32,23 +31,23 @@ bool validate(string expressions, char tests[]) {
 		return false;
 	}
 }
-/* ------------------------------ E N D ---------------------------------- */
+/* ------------------------------ 끝 ---------------------------------- */
 
 
 #pragma  region structures 
-//Create Stucture student to store data
+// 데이터를 저장할 Stucture 학생 생성
 struct users {
 	char username[20], password[20];
 };
 
-//Create Stucture student to store data
+// 데이터를 저장할 Stucture 학생 생성
 struct student {
 
 	unsigned int sid, age;
 	char FName[20], SName[30], course[20], address[100], phoneNo[11];
 
 	void clear() {
-		//Flush data by reinitillizing variables
+		// 변수를 다시 초기화하여 데이터 flush
 		sid, age;
 		FName[20], SName[20], course[20], address[100], phoneNo[11];
 	}
@@ -56,41 +55,41 @@ struct student {
 
 #pragma endregion structures
 
-student stdobject;//Global Variable  for the program to access student
+student stdobject;// 프로그램이 학생에게 접근하기 위한 전역 변수
 
 
 
 #pragma region login
 
-/* ---------------------- Heading Function - Displays Heading ----------------------- */
+/* ---------------------- 제목 기능 - 제목 표시 --------------------- -- */
 void heading() {
-	if (lgStat == 2)cout << setw(20) << "\n                       Logged in as " << login;
+	if (lgStat == 2)cout << setw(20) << "\n                다음 아이디로 로그인 되었습니다 >> " << login;
 	cout << setw(20) << "\n-------------------------------------------------------------------";
-	cout << setw(20) << "\n                 University Student Management System               ";
+	cout << setw(20) << "\n                        대학생 관리 시스템                         ";
 	cout << setw(20) << "\n-------------------------------------------------------------------\n";
 }
-/* ------------------------------ E N D ---------------------------------- */
+/* ------------------------------ 끝 ----------------------------------- */
 
 
-/* ---------------------- Password Function - Displays as * ----------------------- */
+/* ---------------------- 암호 기능 - *로 표시됩니다. -------------------- --- */
 void getPassword(string msg) {
 	char ch = '0';
 
-	cout << setw(5) << msg + "Enter Password: ";
-	/* ---------------------- Convert paswword from text to * ----------------------- */
-	//Check size of characters increment on loop
-	for (int x = 0; x <= sizeof(pw); ++x) { 
+	cout << setw(5) << msg + "비밀번호를 입력하세요:  ";
+	/* ---------------------- 암호를 텍스트에서 *로 변환 -------------------- --- */
+	// 루프에서 증가하는 문자 크기 확인
+	for (int x = 0; x <= sizeof(pw); ++x) {
 
-		//validate character length
+		// 문자 길이 확인
 		if (ch != 13 && ch != (int)-52) {
 			ch = _getch();
 			if (ch == 8) {
 				cout << endl;
 				if (msg != "Re ") msg = "Re ";
-				getPassword(msg);//pass the value to the function
+				getPassword(msg);// 함수에 값을 전달
 				break;
 			}
-			if (ch != 13) cout << "*";//display * instead of characters
+			if (ch != 13) cout << "*";// 문자 대신 * 표시
 
 			pw[x] = ch;
 
@@ -108,27 +107,27 @@ void getPassword(string msg) {
 
 }
 
-/* ---------------------- login input output Function - get credentials ----------------------- */
+/* ---------------------- 로그인 입력 출력 기능 - 자격 증명 가져오기 ------------------- ---- */
 void LoginIO(string msg) {
-	system("cls");//Clear Console
-	heading();// Displays Heading 
-	cout << setw(20) << "\n                                 " << msg << " Login                                          ";
-	cout << setw(20) <<"\n-------------------------------------------------------------------\n";
+	system("cls"); // 콘솔 지우기
+	heading();// 제목 표시
+	cout << setw(20) << "\n                                 " << msg << " 로그인                                          ";
+	cout << setw(20) << "\n-------------------------------------------------------------------\n";
 
 	cout << setw(5) << "Enter Username: ";
 	cin >> un;
 
-	getPassword("");// Call get password function
+	getPassword("");// 암호 얻기 함수 호출
 
 }
-/* ------------------------------ E N D ---------------------------------- */
+/* ------------------------------ 끝 ---------------------------------- */
 
-/* ---------------------- login Function - set login status ,grant acces to the system ----------------------- */
+/* ---------------------- 로그인 기능 - 로그인 상태 설정, 시스템에 대한 액세스 권한 부여 ----------------------- */
 void loginFunc()
 {
-	lgStat = 0;//login status
+	lgStat = 0;// 로그인 상태
 
-	system("cls");//Clear Console
+	system("cls");// 콘솔 지우기
 
 	users object;
 
@@ -138,24 +137,24 @@ void loginFunc()
 
 	while (true) {
 		if (lgStat == 0) {
-			system("cls");//Clear Console
+			system("cls");// 콘솔 지우기
 
-			heading();// Displays Heading
-			LoginIO("");//Call Login input output function
+			heading();// 제목 표시
+			LoginIO("");// 로그인 입력 출력 함수 호출
 
 			file.open("users.dat", ios::binary);
 			while (file.read((char*)&object, sizeof(object))) {
 
-				//Compare characters
+				// 문자 비교
 				if ((strcmp(un, object.username) == 0 && strcmp(pw, object.password) == 0)) {
 
-					//copy charaters to structure's variables
+					// 구조체의 변수에 문자 복사
 					strncpy_s(login, object.username, sizeof(object.username));
-					lgStat = 2;//logged in
+					lgStat = 2;//로그인
 					break;
 				}
 				else {
-					lgStat = 1;//logout
+					lgStat = 1;//로그아웃
 				}
 			}
 			file.close();
@@ -163,22 +162,22 @@ void loginFunc()
 			if (lgStat == 2) break;
 		}
 		else if (lgStat == 1) {
-			system("cls");//Clear Console
-			heading();// Displays Heading
-			cout << setw(20) << "\n                                  Login                              ";
+			system("cls");// 콘솔 지우기
+			heading();// 제목 표시
+			cout << setw(20) << "\n                                  로그인                              ";
 			cout << setw(20) << "\n-------------------------------------------------------------------\n";
-			cout << setw(20) << "\n Access Denied....... Incorrect Username or Password...................\n";
-			cout << setw(20) << "\nPress 'Y' to re try Login or any other key to go to Main Menu: ";
+			cout << setw(20) << "\n 액세스가 거부되었습니다........ 잘못된 사용자 이름 또는 비밀번호입니다...................\n";
+			cout << setw(20) << "\n로그인을 다시 시도하려면 'Y'를 누르거나 메인 메뉴로 이동하려면 다른 키를 누르십시오: ";
 
 			char ch;
 			cin >> ch;
 
 			if (ch == 'y' || ch == 'Y') {
-				LoginIO("Re ");//call the login input ouput function
+				LoginIO("Re ");// 로그인 입력 출력 함수 호출
 
 				file.open("users.dat", ios::binary);
 				while (file.read((char*)&object, sizeof(object))) {
-					//Compare characters
+					//문자 비교
 					if ((strcmp(un, object.username) == 0 && strcmp(pw, object.password) == 0)) {
 						lgStat = 2;
 						break;
@@ -191,8 +190,8 @@ void loginFunc()
 				if (lgStat == 2) break;
 			}
 			else {
-				system("cls");//Clear Console
-				Menu();//Call Menu Function
+				system("cls");//콘솔 지우기
+				Menu();//메뉴 함수 호출
 
 				break;
 			}
@@ -206,19 +205,19 @@ void loginFunc()
 
 
 	if (lgStat == 2) {
-		system("cls");//Clear Console
-		Menu();//Call Menu Function
+		system("cls");//콘솔 지우기
+		Menu();//메뉴 함수 호출
 	}
 }
-/* ------------------------------ E N D ---------------------------------- */
+/* ------------------------------ 끝 ---------------------------------- */
 
-/* ---------------------- Add User function - Add new users to the system ----------------------- */
+/* ---------------------- 사용자 추가 기능 - 시스템에 새 사용자 추가 ----------------------- */
 void adduser()
 {
-	system("cls");//Clear Console
+	system("cls");//콘솔 지우기
 
-	heading();// Displays Heading
-	cout << setw(20) << "\n                          Add new user                               ";
+	heading();// 제목 표시
+	cout << setw(20) << "\n                      새로운 사용자 추가                            ";
 	cout << setw(20) << "\n-------------------------------------------------------------------\n";
 	users object;
 	ofstream file;
@@ -229,41 +228,41 @@ void adduser()
 		cout << left << "Enter username: ";
 		cin >> temp;
 		if (validate("[\\w]+", temp)) {
-			//copy data to object 
+			// 객체에 데이터 복사
 			strncpy_s(object.username, temp, sizeof(temp));
 			break;
 		}
 		else {
-			cout << left << "\t----------- Invalid value.. Please re enter\n\n";
+			cout << left << "\t----------- 잘못된 값입니다.. 다시 입력하십시오.\n\n";
 		}
 
 	}
 
 	while (true) {
-		getPassword("");//call get password method
-		//validate password
+		getPassword("");//비밀번호 얻는 메소드 호출
+		// 비밀번호 확인
 		if (validate("[\\w]+", pw)) {
-			//copy data to object 
+			// 객체에 데이터 복사
 			strncpy_s(object.password, pw, sizeof(pw));
 			break;
 		}
 		else {
-			cout << left << "\t----------- Invalid value.. Please re enter\n\n";
+			cout << left << "\t----------- 잘못된 값입니다.. 다시 입력하십시오.\n\n";
 		}
 
 	}
 
 	file.write((char*)&object, sizeof(object));
 	file.close();
-	cout << "\nData Sucessfully Saved... press any key to go to Main menu..";
+	cout << "\n데이터가 성공적으로 저장되었습니다... 주 메뉴로 이동하려면 아무 키나 누르십시오..";
 	_getch();
-	system("cls");//Clear Console
-	Menu();//Call Menu Function
+	system("cls");// 콘솔 지우기
+	Menu(); // 메뉴 함수 호출
 
 }
-/* ------------------------------ E N D ---------------------------------- */
+/* ------------------------------ 끝 ---------------------------------- */
 
-/* ---------------------- Delete User function - delete users from the system ----------------------- */
+/* ------------------------------------- 사용자 삭제 기능 - 시스템에서 사용자 삭제 --------- */
 void deleteUser()
 {
 	char opt = 0;
@@ -274,46 +273,46 @@ void deleteUser()
 		bool result = false;
 
 		while (true) {
-			system("cls");//Clear Console
+			system("cls");//콘솔 지우기
 
 			if (firstTime == true) {
-				cout << left << "\nInvalid option selected ...... Please re select in order to continue .......\n";
+				cout << left << "\n잘못된 옵션이 선택되었습니다 ...... 계속하려면 다시 선택하십시오 ....... .......\n";
 			}
 
-			heading();// Displays Heading
-			cout << setw(20) << "\n                     Delete Student Details Menu                     ";
+			heading();//제목 표시
+			cout << setw(20) << "\n                    학생 세부 정보 메뉴 삭제                    ";
 			cout << setw(20) << "\n-------------------------------------------------------------------\n";
 
-			cout << left << "1. Delete user\n";
-			cout << left << "\n2. Return to Main Menu\n";
+			cout << left << "1. 사용자 삭제\n";
+			cout << left << "\n2. 메인 메뉴로 돌아가기\n";
 
 			cout << setw(20) << "\n------------------------------------\n";
 
-			cout << setw(20) << "\n *To Continue Please Select an Option : ";
-			cin >> opt; 
+			cout << setw(20) << "\n *계속하려면 옵션을 선택하십시오 : ";
+			cin >> opt;
 
 			firstTime = true;
 			if (opt != '1' || opt != '2') break;
 		}
 
-		system("cls");//Clear Console
+		system("cls");//콘솔 지우기
 		heading();// Displays Heading
 
 		if (opt == '1') {
-			cout << setw(20) << "\n                          Delete user";
+			cout << setw(20) << "\n                          사용자 삭제";
 		}
 		else if (opt == '2') {
-			system("cls");//Clear Console
-			Menu();//Call Menu Function
+			system("cls");//콘솔 지우기
+			Menu();//메뉴 함수 호출
 			break;
 		}
 
 		cout << setw(20) << "\n-------------------------------------------------------------------\n";
 
 		char searchChars[20];
-		cout << setw(20) << "** Delete is case sensitive **\n";
+		cout << setw(20) << "** 삭제는 대소문자를 구분합니다 **\n";
 
-		cout << setw(20) << "\nEnter user name to delete : ";
+		cout << setw(20) << "\n삭제할 사용자 이름을 입력하십시오: ";
 		cin >> searchChars;
 
 
@@ -327,10 +326,10 @@ void deleteUser()
 			if (strcmp(searchChars, userObject.username) == 0) {
 
 				cout << left << "Username : " << userObject.username << endl;
-				cout << setw(20) << "\nRecord will be deleted permanantly...... \n";
-				cout << setw(20) << "\nType 'Y' to confirm or any other to cancel: ";
+				cout << setw(20) << " \n 레코드가 영구적으로 삭제됩니다... \n ";
+				cout << setw(20) << " \n 확인하려면 'Y'를 입력하고 취소하려면 다른 것을 입력하십시오: ";
 				char ch;
-				cin >> ch;//get confirmation
+				cin >> ch;//확인 받기
 				if (ch == 'y' || ch == 'Y') {
 					lgStat = 0;
 					result = true;
@@ -352,217 +351,217 @@ void deleteUser()
 
 		if (result == true) {
 
-			cout << setw(20) << "\nRecord has been deleted";
+			cout << setw(20) << "\n레코드가 삭제되었습니다 .";
 
-			cout << setw(20) << "\nPress any key to continue.........";
+			cout << setw(20) << "\n계속하려면 아무 키나 누르십시오.........";
 			_getch();
-			system("cls");//Clear Console
-			Menu();//Call Menu Function
+			system("cls");//콘솔 지우기
+			Menu();//메뉴 함수 호출
 			break;
 
 		}
 		else {
-			cout << setw(20) << "\n-------------------No records have being deleted---------------------------\n";
+			cout << setw(20) << "\n-------------------삭제된 레코드가 없습니다---------------------------\n";
 
-			cout << setw(20) << "\n Press any key to continue.........";
+			cout << setw(20) << "\n 계속하려면 아무 키나 누르십시오.........";
 			_getch();
 		}
 	}
 }
-/* ------------------------------ E N D ---------------------------------- */
+/* ------------------------------ 끝 ---------------------------------- */
 #pragma endregion login
 
 #pragma region students
-/* ---------------------- Display function - Display Student deails ----------------------- */
+/* ---------------------- 표시 기능 - 학생 세부 정보 표시 ----------------------- */
 void displayStudent()
 {
 	if (stdobject.age != NULL) {
 		cout << endl;
-		cout << setw(20) << "---------------------- Student Details ----------------------\n";
-		cout << left << "Student Id  : " << stdobject.sid << endl;
-		cout << left << "First Name  : " << stdobject.FName << endl;
-		cout << left << "Surname Name: " << stdobject.SName << endl;
-		cout << left << "Age         : " << stdobject.age << endl;
-		cout << left << "Address     : " << stdobject.address << endl;
-		cout << left << "Phone Number: " << stdobject.phoneNo << endl;
-		cout << left << "Course      : " << stdobject.course << endl;
+		cout << setw(20) << "---------------------- 학생 세부사항 ----------------------\n";
+		cout << left << "학생 ID  : " << stdobject.sid << endl;
+		cout << left << "성  : " << stdobject.FName << endl;
+		cout << left << "이름 : " << stdobject.SName << endl;
+		cout << left << "나이        : " << stdobject.age << endl;
+		cout << left << "주소	     : " << stdobject.address << endl;
+		cout << left << "전화 번호   : " << stdobject.phoneNo << endl;
+		cout << left << "강의      : " << stdobject.course << endl;
 		cout << endl;
 	}
 
 }
-/* ------------------------------ E N D ---------------------------------- */
+/* ------------------------------ 끝 ---------------------------------- */
 
 
-/* ----------------- Student Details function -  push student data after validate to the structure---------------- */
+/* ----------------- 학생 세부 정보 기능 - 구조에 유효성을 검사한 후 학생 데이터를 푸시합니다---------------- */
 void stdDetailsToObject(char x) {
-	//save student id to object
+	// 학생 ID를 개체에 저장
 	if (x == 'a') {
 		while (true) {
 			char id[10];
-			cout << left << "\nEnter Student Id                  : ";
+			cout << left << "\n학생 ID를 입력하세요                : ";
 			cin >> id;
-			//validation
+			// 검증
 			if (validate("[\\d]+", id)) {
 				int num = 0;
 				sscanf_s(id, "%d", &num);
-				//copy data to object 
+				// 객체에 데이터 복사
 				stdobject.sid = num;
 				break;
 			}
 			else {
-				cout << left << "\t----------- Invalid value.. Please re enter\n\n";
+				cout << left << "\t----------- 잘못된 값입니다.. 다시 입력하십시오\n\n";
 			}
 		}
 	}
-	//save student first name to object
+	// 학생의 이름을 객체에 저장
 	if (x == 'a' || x == '1' || x == '7') {
 		while (true) {
 			char fntemp[20];
-			cout << left << "\nEnter first name of the student   : ";
+			cout << left << "\n학생의 이름을 입력하십시오   : ";
 			cin >> fntemp;
-			//validation
+			// 검증
 			if (validate("[a-zA-Z]+", fntemp)) {
-				//copy data to object 
+				// 객체에 데이터 복사
 				strncpy_s(stdobject.FName, fntemp, sizeof(fntemp));
 				break;
 			}
 			else {
-				cout << left << "\t----------- Invalid value.. Please re enter\n\n";
+				cout << left << "\t----------- 잘못된 값입니다.. 다시 입력하십시오\n\n";
 			}
 
 		}
 	}
-	//save student last name to object
+	// 학생의 성을 객체에 저장
 	if (x == 'a' || x == '2' || x == '7') {
 		while (true) {
 			char sntemp[30];
-			cout << left << "\nEnter surname of the student      : ";
+			cout << left << "\n학생의 성을 입력하십시오    : ";
 			cin >> sntemp;
-			//validation
+			// 검증
 			if (validate("[a-zA-Z]+", sntemp)) {
-				//copy data to object 
+				// 객체에 데이터 복사
 				strncpy_s(stdobject.SName, sntemp, sizeof(sntemp));
 				break;
 			}
 			else {
-				cout << left << "\t----------- Invalid value.. Please re enter\n\n";
+				cout << left << "\t----------- 잘못된 값입니다.. 다시 입력하십시오\n\n";
 			}
 
 		}
 	}
-	//save student age to object
+	// 객체에 학생 나이 저장
 	if (x == 'a' || x == '3' || x == '7') {
 		while (true) {
 			char agetemp[10];
-			cout << left << "\nEnter age of the student ( 18-40 ): ";
+			cout << left << "\n학생의 연령(18-40) 입력: ";
 			cin >> agetemp;
-			//validation
+			// 검증
 			if (validate("[\\d]+", agetemp)) {
 				int num = 0;
 				sscanf_s(agetemp, "%d", &num);
-				//copy data to object 
+				// 객체에 데이터 복사
 				if (num >= 18 && num <= 40) {
 					stdobject.age = num;
 					break;
 				}
 				else {
-					cout << left << "\t----------- Invalid limit.. Please re enter\n\n";
+					cout << left << "\t----------- 한도가 잘못되었습니다. 다시 입력하세요.\n\n";
 				}
 			}
 			else {
-				cout << left << "\t----------- Invalid value.. Please re enter\n\n";
+				cout << left << "\t----------- 값이 잘못되었습니다. 다시 입력하세요\n\n";
 			}
 
 		}
 	}
-	//save student address to object
+	// 객체에 학생 주소 저장
 	if (x == 'a' || x == '4' || x == '7') {
 		while (true) {
 			char adTemp[100];
-			cout << left << "\nEnter Addreess                    : ";
+			cout << left << "\n주소 입력                    : ";
 			cin.ignore();
 			cin.getline(adTemp, 99);
-			//validation
+			//검증
 			if (validate("[/:a-zA-Z0-9\\s]+", adTemp)) {
-				//copy data to object 
+				// 객체에 데이터 복사
 				strncpy_s(stdobject.address, adTemp, sizeof(adTemp));
 				break;
 			}
 			else {
-				cout << left << "\t----------- Invalid value.. Please re enter\n\n";
+				cout << left << "\t----------- 값이 잘못되었습니다. 다시 입력하세요\n\n";
 			}
 		}
 	}
 
-	//save student phone number to object
+	// 객체에 학생 전화번호 저장
 	if (x == 'a' || x == '5' || x == '7') {
 		while (true) {
 
 			char phnoTemp[11];
 			cout << left << "\nEnter Phone Number                : ";
 			cin >> phnoTemp;
-			//validation
+			// 검증
 			if (validate("[\\d]{10}", phnoTemp)) {
-				//copy data to object 
+				// 객체에 데이터 복사
 				strncpy_s(stdobject.phoneNo, phnoTemp, sizeof(phnoTemp));
 				break;
 			}
 			else {
-				cout << left << "\t----------- Invalid value.. Please re enter\n\n";
+				cout << left << "\t----------- 값이 잘못되었습니다. 다시 입력하세요\n\n";
 			}
 
 		}
 	}
-	//save student course to object
+	// 학생 과정을 개체에 저장
 	if (x == 'a' || x == '6' || x == '7') {
 		while (true) {
 			char crseTemp[20];
-			cout << left << "\nEnter course                      : ";
+			cout << left << "\n강의 입력                     : ";
 			cin >> crseTemp;
-			//validation
+			//검증
 			if (validate("[\\w\\s]+", crseTemp)) {
-				//copy data to object 
+				// 객체에 데이터 복사
 				strncpy_s(stdobject.course, crseTemp, sizeof(crseTemp));
 				break;
 			}
 			else {
-				cout << left << "\t----------- Invalid value.. Please re enter\n\n";
+				cout << left << "\t----------- 값이 잘못되었습니다. 다시 입력하세요\n\n";
 			}
 
 		}
 	}
 }
-/* ------------------------------ E N D ---------------------------------- */
+/* ------------------------------ 끝 ---------------------------------- */
 
 
-/* ---------------------- Student Registration function - Register Students ----------------------- */
+/* ---------------------- 학생 등록 ​​기능 - 학생 등록 ----------------------- */
 void stdRegistration()
 {
-	system("cls");//Clear Console
+	system("cls");// 콘솔 지우기
 
-	heading();// Displays Heading
-	cout << setw(20) << "\n                          Student Registration                       ";
+	heading();// 제목 표시
+	cout << setw(20) << "\n                          학생등록                       ";
 	cout << setw(20) << "\n-------------------------------------------------------------------\n";
-	stdobject.clear();//clear object
+	stdobject.clear();//객체 지우기
 	ofstream file;
 	file.open("stdDetails.dat", ios::binary | ios::app);
-	stdDetailsToObject('a');//call student details to object function
+	stdDetailsToObject('a');// 개체 함수에 대한 학생 세부 정보 호출
 
 	file.write((char*)&stdobject, sizeof(stdobject));
 
 	file.close();
-	displayStudent();//call display student function
+	displayStudent();// 디스플레이 학생 함수 호출
 
-	cout << "Data Sucessfully Saved... press any key to go to Main Menu..";
+	cout << "데이터가 성공적으로 저장되었습니다... 주 메뉴로 이동하려면 아무 키나 누르십시오..";
 	_getch();
-	system("cls");//Clear Console
+	system("cls");// 콘솔 지우기
 
-	Menu();//Call Menu Function
+	Menu();// 메뉴 함수 호출
 
 }
-/* ------------------------------ E N D ---------------------------------- */
+/* ------------------------------ 끝 ---------------------------------- */
 
-/* ---------------------- Search function - Search Students Details----------------------- */
+/* ---------------------- 검색 기능 - 학생 세부 정보 검색----------------------- */
 void stdSearch() {
 	char opt = 0;
 
@@ -574,19 +573,19 @@ void stdSearch() {
 			system("cls");//Clear Console
 
 			if (firstTime == true) {
-				cout << left << "Invalid option selected ...... Please re select in order to continue .......\n";
+				cout << left << " 잘못된 옵션이 선택되었습니다 ...... 계속하려면 다시 선택하십시오 .......\n";
 			}
 			heading();// Displays Heading
-			cout << setw(20) << "\n                          Student Search Menu                        ";
+			cout << setw(20) << "\n                          학생 검색 메뉴                         ";
 			cout << setw(20) << "\n-------------------------------------------------------------------\n";
-			cout << left << "1. Search Student by ID\n";
-			cout << left << "2. Search Student by First Name\n";
-			cout << left << "3. Search Student By Course\n";
-			cout << left << "4. Return to Main Menu\n";
+			cout << left << " 1. 학생 ID로 검색 \n ";
+			cout << left << " 2. 이름으로 학생 검색 \n ";
+			cout << left << " 3. 과목별 학생 검색 \n ";
+			cout << left << " 4. 메인 메뉴로 돌아가기 \n ";
 
 			cout << setw(20) << "\n------------------------------------\n";
 
-			cout << setw(20) << "\n *To Continue Please Select an Option : ";
+			cout << setw(20) << "\n *계속하려면 옵션을 선택하십시오: ";
 			cin >> opt;
 
 			firstTime = true;
@@ -595,24 +594,24 @@ void stdSearch() {
 
 		system("cls");//Clear Console
 		heading();// Displays Heading
-		cout << setw(20) << "\n                          Student Search                             ";
+		cout << setw(20) << "\n                           학생 검색                            ";
 		cout << setw(20) << "\n-------------------------------------------------------------------\n";
 
 		char searchChars[20];
-		cout << setw(20) << "** Search is case sensitive **\n";
+		cout << setw(20) << "** 검색은 대소문자를 구분합니다 **\n";
 
 		if (opt == '1') {
-			cout << setw(20) << "\nEnter student ID : ";
+			cout << setw(20) << "\n학번을 입력하세요 : ";
 		}
 		else if (opt == '2') {
-			cout << setw(20) << "\nEnter student First Name : ";
+			cout << setw(20) << "\n학생의 이름을 입력하세요: ";
 		}
 		else if (opt == '3') {
-			cout << setw(20) << "\nEnter student course : ";
+			cout << setw(20) << "\n학생 과정 입력: ";
 		}
 		else if (opt == '4') {
-			system("cls");//Clear Console
-			Menu();//Call Menu Function
+			system("cls");//콘솔 지우기
+			Menu();// 메뉴 함수 호출
 			break;
 		}
 
@@ -621,7 +620,7 @@ void stdSearch() {
 		file.open("stdDetails.dat", ios::binary);
 
 		while (file.read((char*)&stdobject, sizeof(stdobject))) {
-			//search using student id
+			// 학생 ID로 검색
 			if (opt == '1') {
 				int num = 0;
 				sscanf_s(searchChars, "%d", &num);
@@ -636,7 +635,7 @@ void stdSearch() {
 				}
 
 			}
-			//search using student first name
+			// 학생 이름으로 검색
 			else if (opt == '2') {
 				if (strcmp(searchChars, stdobject.FName) == 0) {
 
@@ -647,7 +646,7 @@ void stdSearch() {
 
 				}
 			}
-			//search using student course
+			// 학생 강의를 사용하여 검색
 			else if (opt == '3') {
 
 				if (strcmp(searchChars, stdobject.course) == 0) {
@@ -666,21 +665,21 @@ void stdSearch() {
 
 		if (result == true) {
 			displayStudent();//call display student function
-			cout << setw(20) << "\nPress any key to continue.........";
+			cout << setw(20) << "\n계속하려면 아무 키나 누르십시오.........";
 			_getch();
 		}
 		else {
-			cout << setw(20) << "\n-------------------Could not find the Searched record ---------------------------\n";
+			cout << setw(20) << "\n-------------------검색된 기록을 찾을 수 없습니다 ---------------------------\n";
 
-			cout << setw(20) << "\nPress any key to continue.........";
+			cout << setw(20) << "\n계속하려면 아무 키나 누르십시오.........";
 			_getch();
 
 		}
 	}
 }
-/* ------------------------------ E N D ---------------------------------- */
+/* ------------------------------ 끝 ---------------------------------- */
 
-/* ---------------------- Update function - Update Students Details ----------------------- */
+/* ---------------------- 업데이트 기능 - 학생 세부 정보 업데이트 ----------------------- */
 void stdUpdate()
 {
 	char opt = 0;
@@ -690,70 +689,70 @@ void stdUpdate()
 		bool result = false;
 
 		while (true) {
-			system("cls");//Clear Console
+			system("cls");//콘솔 지우기
 
 			if (firstTime == true) {
-				cout << left << "\nInvalid option selected ...... Please re select in order to continue .......\n";
+				cout << left << "\n잘못된 옵션이 선택되었습니다 ...... 계속하려면 다시 선택하십시오  .......\n";
 			}
 
-			heading();// Displays Heading
-			cout << setw(20) << "\n                 Update Student Details Menu                        ";
+			heading();// 제목 표시
+			cout << setw(20) << "\n                  학생 정보 메뉴 업데이트                           ";
 			cout << setw(20) << "\n-------------------------------------------------------------------\n";
 
-			cout << left << "1. Update Student First Name\n";
-			cout << left << "2. Update Student Surname\n";
-			cout << left << "3. Update Student Age\n";
-			cout << left << "4. Update Student Addreess\n";
-			cout << left << "5. Update Student Phone Number\n";
-			cout << left << "6. Update Student course\n";
-			cout << left << "7. Update Student All Details\n";
-			cout << left << "\n8. Return to Main Menu\n";
+			cout << left << " 1. 학생 이름 업데이트 \n ";
+			cout << left << " 2. 학생 성을 업데이트 합니다. \n ";
+			cout << left << " 3. 학생 나이 업데이트 \n ";
+			cout << left << " 4. 학생 주소 업데이트 \n ";
+			cout << left << " 5. 학생 전화번호 업데이트 \n ";
+			cout << left << " 6. 학생 course 업데이트 \n ";
+			cout << left << " 7. 학생의 모든 세부 정보 업데이트 \n ";
+			cout << left << " \n 8. 메인 메뉴로 돌아가기 \n ";
 
 			cout << setw(20) << "\n------------------------------------\n";
 
-			cout << setw(20) << "\n *To Continue Please Select an Option : ";
+			cout << setw(20) << " \n *계속하려면 옵션을 선택하십시오: ";
 			cin >> opt;
 
 			firstTime = true;
 			if (opt != '1' || opt != '2' || opt != '3' || opt != '4' || opt != '5' || opt != '6' || opt != '7' || opt != '8') break;
 		}
 
-		system("cls");//Clear Console
-		heading();// Displays Heading
+		system("cls");// 콘솔 지우기
+		heading();// 제목 표시
 
 		if (opt == '1') {
-			cout << setw(20) << "\n                          Update Student First Name";
+			cout << setw(20) << "\n                          학생 이름 업데이트 ";
 		}
 		else if (opt == '2') {
-			cout << setw(20) << "\n                          Update Student Surname";
+			cout << setw(20) << "\n                           학생 성 업데이트 ";
 		}
 		else if (opt == '3') {
-			cout << setw(20) << "\n                          Update Student Age";
+			cout << setw(20) << "\n                          학생 연령 업데이트 ";
 		}
 		else if (opt == '4') {
-			cout << setw(20) << "\n                          Update Student Addreess";
+			cout << setw(20) << "\n                          학생 주소 업데이트 ";
 		}
 		else if (opt == '5') {
-			cout << setw(20) << "\n                          Update Student Phone Number";
+			cout << setw(20) << "\n                          학생 전화번호 업데이트";
 		}
 		else if (opt == '6') {
-			cout << setw(20) << "\n                          Update Student course";
+			cout << setw(20) << "\n                          학생 course 업데이트 ";
 		}
 		else if (opt == '6') {
-			cout << setw(20) << "\n                          Update Student All Details";
+			cout << setw(20) << "\n                          학생의 모든 세부 정보 업데이트";
 		}
 		else if (opt == '8') {
-			system("cls");//Clear Console
-			Menu();//Call Menu Function
+			system("cls");//콘솔 지우기
+			Menu();//메뉴 함수 호출
 			break;
 		}
 
 		cout << setw(20) << "\n-------------------------------------------------------------------\n";
 
 		char searchChars[20];
-		cout << setw(20) << "** Search is case sensitive **\n";
+		cout << setw(20) << " ** 검색은 대소문자를 구분합니다 ** \n ";
 
-		cout << setw(20) << "\nEnter student ID to make changes : ";
+		cout << setw(20) << " \n 변경하려면 학생 ID를 입력하십시오: ";
 		cin >> searchChars;
 
 		int num = 0;
@@ -769,7 +768,7 @@ void stdUpdate()
 		while (file.read((char*)&stdobject, sizeof(stdobject))) {
 			if (num == stdobject.sid) {
 				result = true;
-				stdDetailsToObject(opt);//based on opt pass parameter and change data
+				stdDetailsToObject(opt);// opt pass 매개변수 및 변경 데이터 기반
 				filet.write((char*)&stdobject, sizeof(stdobject));
 			}
 			else {
@@ -781,32 +780,32 @@ void stdUpdate()
 		filet.close();
 
 		remove("stdDetails.dat");
-		rename("stdDetailst.tmp", "stdDetails.dat");//copy and paste updated data
+		rename("stdDetailst.tmp", "stdDetails.dat");// 업데이트된 데이터 복사 및 붙여
 
 		if (result == true) {
 			file.open("stdDetails.dat", ios::binary);
 
 			while (file.read((char*)&stdobject, sizeof(stdobject))) {
 				if (num == stdobject.sid) {
-					cout << setw(20) << "\nData has been updated in the selected record";
+					cout << setw(20) << "\n선택한 레코드에서 데이터가 업데이트되었습니다 .";
 					displayStudent();
-					cout << setw(20) << "\nPress any key to continue.........";
+					cout << setw(20) << "\n계속하려면 아무 키나 누르십시오........";
 					_getch();
 				}
 			}
 			file.close();
 		}
 		else {
-			cout << setw(20) << "\n-------------------Could not find the searched record ---------------------------\n";
+			cout << setw(20) << " \n -------------------검색된 레코드를 찾을 수 없습니다 ---------------------------- -------------- \n ";
 
-			cout << setw(20) << "\nPress any key to continue.........";
+			cout << setw(20) << " \n 계속하려면 아무 키나 누르십시오....... ";
 			_getch();
 		}
 	}
 }
-/* ------------------------------ E N D ---------------------------------- */
+/* ------------------------------ 끝 ---------------------------------- */
 
-/* ---------------------- Delete Students function - Delete Students Details ----------------------- */
+/* ---------------------- 학생 삭제 기능 - 학생 세부 정보 삭제 ----------------------- */
 void stdDelete()
 {
 	char opt = 0;
@@ -816,46 +815,46 @@ void stdDelete()
 		bool result = false;
 
 		while (true) {
-			system("cls");//Clear Console
+			system("cls");//콘솔 지우기
 
 			if (firstTime == true) {
-				cout << left << "\nInvalid option selected ...... Please re select in order to continue .......\n";
+				cout << left << "\n잘못된 옵션이 선택되었습니다 ...... 계속하려면 다시 선택하십시오 .......\n";
 			}
 
-			heading();// Displays Heading
-			cout << setw(20) << "\n                    Delete Student Details Menu                      ";
+			heading();// 제목 표시
+			cout << setw(20) << "\n                   학생 세부 정보 메뉴 삭제                          ";
 			cout << setw(20) << "\n-------------------------------------------------------------------\n";
 
-			cout << left << "1. Delete Student Record\n";
-			cout << left << "\n2. Return to Main Menu\n";
+			cout << left << " 1. 학생 기록 삭제 \n ";
+			cout << left << " \n 2. 메인 메뉴로 돌아가기 \n ";
 
-			cout << setw(20) << "\n------------------------------------\n";
+			cout << setw(20) << " \n ------------------------------------ \n ";
 
-			cout << setw(20) << "\n *To Continue Please Select an Option : ";
+			cout << setw(20) << " \n *계속하려면 옵션을 선택하십시오: ";
 			cin >> opt;
 
 			firstTime = true;
 			if (opt != '1' || opt != '2') break;
 		}
 
-		system("cls");//Clear Console
-		heading();// Displays Heading
+		system("cls");// 콘솔 지우기
+		heading();// 제목 표시
 
 		if (opt == '1') {
-			cout << setw(20) << "\n                          Delete student";
+			cout << setw(20) << "\n                          학생 삭제";
 		}
 		else if (opt == '2') {
-			system("cls");//Clear Console
-			Menu();//Call Menu Function
+			system("cls");//콘솔 지우기
+			Menu();// 메뉴 함수 호출
 			break;
 		}
 
 		cout << setw(20) << "\n-------------------------------------------------------------------\n";
 
 		char searchChars[20];
-		cout << setw(20) << "** Search is case sensitive **\n";
+		cout << setw(20) << " ** 검색은 대소문자를 구분합니다 ** \n ";
 
-		cout << setw(20) << "\nEnter student ID to delete : ";
+		cout << setw(20) << " \n 삭제할 학번을 입력하세요 : ";
 		cin >> searchChars;
 
 		int num = 0;
@@ -871,12 +870,12 @@ void stdDelete()
 		while (file.read((char*)&stdobject, sizeof(stdobject))) {
 			if (num == stdobject.sid) {
 
-				cout << setw(20) << "\nRecord will be deleted permanantly...... ";
+				cout << setw(20) << " \n 레코드가 영구적으로 삭제됩니다...... ";
 				displayStudent();
-				cout << setw(20) << "\nType 'Y' to confirm or any other to cancel: ";
+				cout << setw(20) << " \n 확인하려면 'Y'를 입력하고 취소하려면 다른 것을 입력하십시오: ";
 				char ch;
 				cin >> ch;
-				//delete confirmation validation
+				//확인 유효성 검사 삭제
 				if (ch == 'y' || ch == 'Y') {
 
 					result = true;
@@ -894,266 +893,265 @@ void stdDelete()
 		filet.close();
 
 		remove("stdDetails.dat");
-		rename("stdDetailst.tmp", "stdDetails.dat");//copy and pasting required data
+		rename("stdDetailst.tmp", "stdDetails.dat");// 필요한 데이터 복사 및 붙여넣기
 
 		if (result == true) {
 
-			cout << setw(20) << "\nRecord has been deleted";
+			cout << setw(20) << " \n 레코드가 삭제되었습니다 . ";
 
-			cout << setw(20) << "\nPress any key to continue.........";
+			cout << setw(20) << " \n 계속하려면 아무 키나 누르십시오....... ";
 			_getch();
 
 		}
 		else {
-			cout << setw(20) << "\n-------------------No records has being deleted---------------------------\n";
+			cout << setw(20) << " \n -------------------삭제 중인 레코드가 없습니다---------------------------- \n ";
 
-			cout << setw(20) << "\nPress any key to continue.........";
+			cout << setw(20) << " \n 계속하려면 아무 키나 누르십시오....... ";
 			_getch();
 		}
 	}
 }
-/* ------------------------------ E N D ---------------------------------- */
+/* ------------------------------ 끝 ---------------------------------- */
 #pragma endregion students
 
 #pragma region menus
-/* ---------------------- Help function - Help on the system ----------------------- */
+/* ---------------------- 도움말 기능 - 시스템에 대한 도움말 ----------------------- */
 void help() {
 
-	system("cls");//Clear Console
-	heading();// Displays Heading
+	system("cls");//콘솔 지우기
+	heading();// 메뉴 함수 호출
 
-	cout << "\n\n";
-	cout << left << "-----------------------------------" << endl;
-	cout << left << " Help - How to use the Application " << endl;
-	cout << left << "-----------------------------------" << "\n\n\n";
+	cout << " \n\n ";
+	cout << left << " -------------------------------------------------- " << endl;
+	cout << left << " 도움말 - 응용 프로그램 사용 방법 " << endl;
+	cout << left << " ----------------------------------- " << " \n\n \n ";
 
-	cout << "NOTE - All feilds are mandatory and therefore  cannot be ommited.\n";
-	cout << "NOTE - All feilds that requires Text will only recognize Text.\n";
-	cout << "NOTE - All feilds that requires Numeric Input will only recognize Numeric Input\n";
-	cout << "NOTE - All Inputs are retrived precisely to the written format in the files hence all operations are case sensitive.\n";
-	cout << "NOTE - Use standard formats and convention to get the best performance from the application."<<"\n\n";
+	cout << " 참고 - 모든 필드는 필수이므로 생략할 수 없습니다. \n ";
+	cout << " 참고 - 텍스트가 필요한 모든 필드는 텍스트만 인식합니다. \n ";
+	cout << " 참고 - 숫자 입력이 필요한 모든 필드는 숫자 입력만 인식합니다 \n ";
+	cout << " 참고 - 모든 입력은 파일에 기록된 형식으로 정확하게 검색되므로 모든 작업은 대소문자를 구분합니다. \n ";
+	cout << " 참고 - 응용 프로그램에서 최상의 성능을 얻으려면 표준 형식과 규칙을 사용하십시오. " << " \n\n ";
 
-	cout << left << "-----------------------------------" << endl;
-	cout << left << "               Login               " << endl;
-	cout << left << "-----------------------------------" << endl;
-	cout << "Press 1 in the main menu to login to the system." << endl;
-	cout << "Then it will be requesting for the credentials." << endl;
-	cout << "And by filling all the details correctly, you can login to the system." << endl;
-	cout << "NOTE - You must fill all the required details in order to login to the system." << "\n\n";
-	cout << "-----------------------------------------------------------------------------------------\n\n";
+	cout << left << " -------------------------------------------------- " << endl;
+	cout << left << "                로그인                " << endl;
+	cout << left << " -------------------------------------------------- " << endl;
+	cout << " 메인 메뉴에서 1번을 눌러 시스템에 로그인 합니다. " << endl;
+	cout << " 그러면 자격 증명을 요청할 것입니다. " << endl;
+	cout << " 그리고 모든 세부 정보를 올바르게 입력하면 시스템에 로그인할 수 있습니다. " << endl;
+	cout << " 참고 - 시스템에 로그인하려면 필요한 모든 세부 정보를 입력해야 합니다. " << " \n\n ";
+	cout << " -------------------------------- ------------------------------------------- \n\n ";
 
-	cout << left << "-----------------------------------" << endl;
-	cout << left << "           Add new users           " << endl;
-	cout << left << "-----------------------------------" << endl;
-	cout << "NOTE - To do this you must be logged onto the system." << "\n\n";
-	cout << "Press 2 in the main menu to add new user to the system." << endl;
-	cout << "And by filling all the details correctly, you can add new user to the system." << "\n\n";
-	cout << "NOTE - You must fill all the required details in order to login to the system in the future." << "\n\n";
-	cout << "-----------------------------------------------------------------------------------------\n\n";
+	cout << left << " -------------------------------------------------- " << endl;
+	cout << left << "            새 사용자 추가            " << endl;
+	cout << left << " -------------------------------------------------- " << endl;
+	cout << " 참고 - 이렇게 하려면 시스템에 로그온해야 합니다. " << " \n\n ";
+	cout << " 새로운 사용자를 시스템에 추가하려면 메인 메뉴에서 2번을 누르십시오. " << endl;
+	cout << " 그리고 모든 세부 정보를 올바르게 입력하면 시스템에 새 사용자를 추가할 수 있습니다. " << " \n\n ";
+	cout << " 참고 - 나중에 시스템에 로그인하려면 필요한 모든 세부 정보를 입력해야 합니다. " << " \n\n ";
+	cout << " -------------------------------- ------------------------------------------- \n\n ";
 
-	cout << left << "-----------------------------------" << endl;
-	cout << left << "          Delete Users             " << endl;
-	cout << left << "-----------------------------------" << endl;
-	cout << "NOTE - To do this you must be logged onto the system." << "\n\n";
-	cout << "Press 3 in the main menu to delete user to the system." << endl;
-	cout << "And by filling all the details correctly, you can delete user from the system." << "\n\n";
-	cout << "NOTE - You must fill all the required details in order to remove the user from the system." << "\n\n";
-	cout << "-----------------------------------------------------------------------------------------\n\n";
+	cout << left << " -------------------------------------------------- " << endl;
+	cout << left << "           사용자 삭제              " << endl;
+	cout << left << " -------------------------------------------------- " << endl;
+	cout << " 참고 - 이렇게 하려면 시스템에 로그온해야 합니다. " << " \n\n ";
+	cout << " 메인 메뉴에서 3번을 누르면 시스템에서 사용자를 삭제할 수 있습니다. " << endl;
+	cout << " 그리고 모든 세부 정보를 올바르게 입력하면 시스템에서 사용자를 삭제할 수 있습니다. " << " \n\n ";
+	cout << " 참고 - 시스템에서 사용자를 제거하려면 필요한 모든 세부 정보를 입력해야 합니다. " << " \n\n ";
+	cout << " -------------------------------- ------------------------------------------- \n\n ";
 
-	cout << left << "-----------------------------------" << endl;
-	cout << left << "          Register Student         " << endl;
-	cout << left << "-----------------------------------" << endl;
-	cout << "NOTE - To do this you must be logged onto the system." << "\n\n";
-	cout << "Press 4 in the main menu to add a new student to the system." << endl;
-	cout << "Then it will be requesting for the student details." << endl;
-	cout << "And by filling all the details correctly, you can add a student to the system." << "\n\n";
-	cout << "NOTE - You must fill all the required details in order to add a student to the system." << "\n\n";
-	cout << "NOTE - The phone number will only accept 10 characters." << "\n\n";
-	cout << "NOTE - The Address will be in the below format " << "\n\n";
-	cout << "1600 Amphitheatre Parkway  Mountain View  CA ";
-	cout << "-----------------------------------------------------------------------------------------\n\n";
-
-
-	cout << left << "-----------------------------------" << endl;
-	cout << left << "       Search Student Detials      " << endl;
-	cout << left << "-----------------------------------" << endl;
-	cout << "NOTE - To do this you must be logged onto the system." << "\n\n";
-	cout << "Press 5 in the main menu to  Search a student from the system." << endl;
-	cout << "You will be routed to sub menu which will provide search options." << "\n\n";
-	cout << "In this menu you will be able to search according to a variety of options: " << "\n\n";
-	cout << "If you press 1 you will be able to search students by using id."<< "\n\n";
-	cout << "If you press 2 you will be able to search students by using their first name." << "\n\n";
-	cout << "If you press 3 you will be able to search students by using their course." << "\n\n";
-	cout << "If you press 4 you will be re-directed to the main menu." << "\n\n";
-	cout << "NOTE - Search is HIGHLY CASE SENSITIVE." << "\n\n";
-
-	cout << left << "-----------------------------------" << endl;
-	cout << left << "     Update Student Detials        " << endl;
-	cout << left << "-----------------------------------" << endl;
-	cout << "NOTE - To do this you must be logged onto the system." << "\n\n";
-	cout << "Press 6 in the main menu to  Update a student's details from the system." << endl;
-	cout << "You will be routed to sub menu which will provide Update options." << "\n\n";
-	cout << "In this menu you will be able to Update according to a variety of options: " << endl;
-	cout << "If you press 1 you will be able to Update student's id." << endl;
-	cout << "If you press 2 you will be able to Update student's first name." << endl;
-	cout << "If you press 3 you will be able to Update student's surname." << endl;
-	cout << "If you press 4 you will be able to Update student's age." << endl;
-	cout << "If you press 5 you will be able to Update student's address." << endl;
-	cout << "If you press 6 you will be able to Update student's course." << endl;
-	cout << "If you press 7 you will be able to Update student's all details." << endl;
-	cout << "If you press 8 you will be re-directed to the main menu." << endl;
-	cout << "NOTE - Update will prompt search using student Id hence input is HIGHLY CASE SENSITIVE." << "\n\n";
-
-	cout << left << "-----------------------------------" << endl;
-	cout << left << "     Delete Student Detials        " << endl;
-	cout << left << "-----------------------------------" << endl;
-	cout << "NOTE - To do this you must be logged onto the system." << "\n\n";
-	cout << "Press 6 in the main menu to  Delete student details from the system." << endl;
-	cout << "You will be routed to sub menu which will provide delete options." << "\n\n";
-	cout << "In this menu you will be able to delete according to a variety of options: " << endl;
-	cout << "If you press 1 you will be able to delete student details." << endl;
-	cout << "If you press 2 you will be re-directed to the main menu." << endl;
-	cout << "NOTE - delete will prompt search using student Id hence input is HIGHLY CASE SENSITIVE." << endl;
+	cout << left << " -------------------------------------------------- " << endl;
+	cout << left << "           학생 등록          ​​" << endl;
+	cout << left << " -------------------------------------------------- " << endl;
+	cout << " 참고 - 이렇게 하려면 시스템에 로그온해야 합니다. " << " \n\n ";
+	cout << " 새 학생을 시스템에 추가하려면 메인 메뉴에서 4를 누르십시오. " << endl;
+	cout << " 그러면 학생 정보를 요구하게 됩니다. " << endl;
+	cout << " 그리고 모든 세부 정보를 올바르게 입력하면 시스템에 학생을 추가할 수 있습니다. " << " \n\n ";
+	cout << " 참고 - 학생을 시스템에 추가하려면 필요한 모든 세부 정보를 입력해야 합니다. " << " \n\n ";
+	cout << " 참고 - 전화번호는 10자만 허용됩니다. " << " \n\n ";
+	cout << " 참고 - 주소는 아래 형식이 됩니다. " << " \n\n ";
+	cout << " 1600 Amphitheatre Parkway Mountain View CA ";
+	cout << " -------------------------------- ------------------------------------------- \n\n ";
 
 
-	cout << left << "-----------------------------------" << endl;
-	cout << left << "                Help               " << endl;
-	cout << left << "-----------------------------------" << endl;
-	cout << "NOTE - To do this you must be logged onto the system." << endl;
-	cout << "Help will give you the basic conventions to be followed when using the system." << endl;
+	cout << left << " -------------------------------------------------- " << endl;
+	cout << left << "        학생 정보 검색       " << endl;
+	cout << left << " -------------------------------------------------- " << endl;
+	cout << " 참고 - 이렇게 하려면 시스템에 로그온해야 합니다. " << " \n\n ";
+	cout << " 시스템에서 학생을 검색하려면 메인 메뉴에서 5번을 누르세요. " << endl;
+	cout << " 검색 옵션을 제공하는 하위 메뉴로 이동합니다. " << " \n\n ";
+	cout << " 이 메뉴에서는 다양한 옵션에 따라 검색할 수 있습니다: " << " \n\n ";
+	cout << " 1번을 누르면 id로 학생을 검색할 수 있습니다. " << " \n\n ";
+	cout << " 2번을 누르면 이름으로 학생을 검색할 수 있습니다. " << " \n\n ";
+	cout << " 3번을 누르면 수강생을 해당 과목으로 검색할 수 있습니다. " << " \n\n ";
+	cout << " 4번을 누르면 메인 메뉴로 이동합니다. " << " \n\n ";
+	cout << " 참고 - 검색은 매우 대소문자를 구분합니다. " << " \n\n ";
 
-	cout << left << "-----------------------------------" << endl;
-	cout << left << "        Other functions            " << endl;
-	cout << left << "-----------------------------------" << endl;
-	cout << "Press 9 in the main menu to log out from the system." << endl;
-	cout << "Press 10 in the main menu to exit from the system." << endl;
+	cout << left << " -------------------------------------------------- " << endl;
+	cout << left << "      학생 정보 업데이트         " << endl;
+	cout << " 참고 - 이렇게 하려면 시스템에 로그온해야 합니다. " << " \n\n ";
+	cout << " 메인 메뉴에서 6번을 누르면 시스템에서 학생 정보를 업데이트 합니다. " << endl;
+	cout << " 업데이트 옵션을 제공하는 하위 메뉴로 이동합니다. " << " \n\n ";
+	cout << " 이 메뉴에서 다양한 옵션에 따라 업데이트할 수 있습니다: " << endl;
+	cout << " 1번을 누르면 학번을 업데이트 할 수 있습니다. " << endl;
+	cout << " 2번을 누르면 학생의 이름을 변경할 수 있습니다. " << endl;
+	cout << " 3번을 누르면 학생의 성을 업데이트할 수 있습니다. " << endl;
+	cout << " 4번을 누르면 학생 나이를 업데이트 할 수 있습니다. " << endl;
+	cout << " 5번을 누르면 학생의 주소를 업데이트 할 수 있습니다. " << endl;
+	cout << " 6번을 누르면 수강생의 강의를 업데이트 할 수 있습니다. " << endl;
+	cout << " 7번을 누르면 학생의 모든 정보를 업데이트 할 수 있습니다. " << endl;
+	cout << " 8번을 누르면 메인 메뉴로 이동합니다. " << endl;
+	cout << " 참고 - 업데이트는 학생 ID를 사용하여 검색하라는 메시지를 표시하므로 입력은 대소문자를 엄격하게 구분합니다. " << " \n\n ";
+
+	cout << left << " -------------------------------------------------- " << endl;
+	cout << left << "      학생 정보 삭제         " << endl;
+	cout << left << " -------------------------------------------------- " << endl;
+	cout << " 참고 - 이렇게 하려면 시스템에 로그온해야 합니다. " << " \n\n ";
+	cout << " 시스템에서 학생 정보를 삭제하려면 메인 메뉴에서 6번을 누르십시오. " << endl;
+	cout << " 삭제 옵션을 제공하는 하위 메뉴로 이동합니다. " << " \n\n ";
+	cout << " 이 메뉴에서는 다양한 옵션에 따라 삭제할 수 있습니다: " << endl;
+	cout << " 1번을 누르면 학생정보를 삭제할 수 있습니다. " << endl;
+	cout << " 2번을 누르면 메인 메뉴로 이동합니다. " << endl;
+	cout << " 참고 - 삭제하면 학생 ID를 사용하여 검색하라는 메시지가 표시되므로 입력은 대소문자를 구분해야 합니다. " << endl;
 
 
-	cout << "Press any key to go to Main Menu..";
+	cout << left << " -------------------------------------------------- " << endl;
+	cout << left << "                 도움말                " << endl;
+	cout << left << " -------------------------------------------------- " << endl;
+	cout << " 참고 - 이렇게 하려면 시스템에 로그온해야 합니다. " << endl;
+	cout << " 도움말은 시스템을 사용할 때 따라야 할 기본 규칙을 제공합니다. " << endl;
+
+	cout << left << " -------------------------------------------------- " << endl;
+	cout << left << "         기타 기능             " << endl;
+	cout << left << " -------------------------------------------------- " << endl;
+	cout << " 메인 메뉴에서 9번을 누르면 시스템에서 로그아웃 됩니다. " << endl;
+	cout << " 메인 메뉴에서 10번을 눌러 시스템을 종료합니다. " << endl;
+
+
+	cout << " 메인 메뉴로 가려면 아무 키나 누르세요.. ";
 	_getch();
 
-	system("cls");//Clear Console
-	Menu();//Call Menu Function
+	system("cls");//콘솔 지우기
+	Menu();//메뉴 함수 호출
 
 
 
 }
-/* ------------------------------ E N D ---------------------------------- */
+/* ------------------------------ 끝 ---------------------------------- */
 
-/* ---------------------- Menu function - To navigate in the system on the system ----------------------- */
+/* ---------------------- 메뉴 기능 - 시스템에서 시스템 탐색 ----------------------- */
 void Menu()
 {
 	while (true) {
-		heading();// Displays Heading
-		cout << left << "1. Login\n";
-		cout << left << "2. Add new user\n";
-		cout << left << "3. Delete user\n";
-		cout << left << "4. Register Student\n";
-		cout << left << "5. Search Students\n";
-		cout << left << "6. Update Student Details\n";
-		cout << left << "7. Delete Student Details\n";
-		cout << left << "8. Help\n";
-		cout << left << "9. Logout\n";
-		cout << left << "10.Exit\n";
+		heading();// 제목 표시
+		cout << left << " 1. 로그인 \n";
+		cout << left << " 2. 새 사용자 추가 \n";
+		cout << left << " 3. 사용자 삭제 \n";
+		cout << left << " 4. 학생 등록\n";
+		cout << left << " 5. 학생 검색 \n";
+		cout << left << " 6. 학생 정보 업데이트 \n";
+		cout << left << " 7. 학생 정보 삭제 \n";
+		cout << left << " 8. 도움말 \n";
+		cout << left << " 9. 로그아웃 \n";
+		cout << left << " 10. 종료 \n ";
 
 		cout << setw(20) << "\n------------------------------------\n";
-		cout << setw(20) << "\n *To Continue Please Select an Option : ";
+		cout << setw(20) << " \n *계속하려면 옵션을 선택하십시오: ";
 
 		unsigned short int opt;
 		cin >> opt;
 
 		if (opt == 1) {
-			loginFunc();// call login function
+			loginFunc();// 로그인 함수 호출
 			break;
 		}
 		else if (opt == 2) {
 			if (lgStat == 2) {
-				adduser();//call add user function
+				adduser();// 사용자 추가 함수 호출
 				break;
 			}
 			else {
-				system("cls");//Clear Console
-				cout << left << "\nPlease login before continue .......\n";
+				system("cls");// 콘솔 지우기
+				cout << left << "\n먼저 로그인을 해주세요......\n";
 			}
 		}
 		else if (opt == 3) {
 			if (lgStat == 2) {
-				deleteUser();//call delete user function
+				deleteUser();// 사용자 삭제 함수 호출
 				break;
 			}
 			else {
-				system("cls");//Clear Console
-				cout << left << "\nPlease login before continue .......\n";
+				system("cls");// 콘솔 지우기
+				cout << left << "\n먼저 로그인을 해주세요......\n";
 			}
 		}
 		else if (opt == 4) {
 			if (lgStat == 2) {
-				stdRegistration();//Call student registration function
+				stdRegistration();// 학생등록 함수 호출
 				break;
 			}
 			else {
-				system("cls");//Clear Console
-				cout << left << "\nPlease login before continue .......\n";
+				system("cls");// 콘솔 지우기
+				cout << left << "\n먼저 로그인을 해주세요......\n";
 			}
 		}
 		else if (opt == 5) {
-			stdSearch();// call student search function
+			stdSearch();// 학생 검색 기능 호출
 			break;
 		}
 		else if (opt == 6) {
 			if (lgStat == 2) {
-				stdUpdate();//Call student update
+				stdUpdate();// 학생 업데이트 호출
 				break;
 			}
 			else {
-				system("cls");//Clear Console
-				cout << left << "\nPlease login before continue .......\n";
+				system("cls");// 콘솔 지우기
+				cout << left << "\n먼저 로그인을 해주세요......\n";
 			}
 		}
 		else if (opt == 7) {
 			if (lgStat == 2) {
-				stdDelete();//Call delete student function
+				stdDelete();// 학생 삭제 함수 호출
 				break;
 			}
 			else {
-				system("cls");//Clear Console
-				cout << left << "\nPlease login before continue .......\n";
+				system("cls");// 콘솔 지우기
+				cout << left << "\n먼저 로그인을 해주세요......\n";
 			}
 		}
-		else if (opt==8) {
+		else if (opt == 8) {
 			if (lgStat == 2) {
-				help();//Call help function
+				help();// 도움말 함수 호출
 				break;
 			}
 			else {
-				system("cls");//Clear Console
-				cout << left << "\nPlease login before continue .......\n";
+				system("cls");// 콘솔 지우기
+				cout << left << "\n먼저 로그인을 해주세요......\n";
 			}
 		}
 		else if (opt == 9) {
 			lgStat = 0;
-			system("cls");//Clear Console
+			system("cls");// 콘솔 지우기
 		}
 		else if (opt == 10) {
-			exit(0);//exit application
+			exit(0);// 애플리케이션 종료
 		}
 		else {
-			system("cls");//Clear Console
-			cout << left << "\nInvalid option selected ...... Please re select in order to continue .......\n";
+			system("cls");// 콘솔 지우기
+			cout << left << "\n잘못된 옵션을 선택했습니다 ...... 계속하려면 다시 선택하십시오 .......\n";
 		}
 	}
 
 }
-/* ------------------------------ E N D ---------------------------------- */
+/* ------------------------------ 끝 ---------------------------------- */
 #pragma endregion menus
 
-/* ---------------------- Main function ----------------------- */
+/* ---------------------- 메인 함수 ----------------------- */
 int main() {
-	system("mode 650");//Set console size
-	SetConsoleTitle(TEXT ("University Student Management System"));// Set console window's title
-	system("COLOR F0");//Sets the background & text color
-	Menu();//Call Menu Function
+	system("mode 650");// 콘솔 크기 설정
+	SetConsoleTitle(TEXT("대학생 관리 시스템"));// 콘솔 창의 제목 설정
+	system("COLOR F0");// 배경 및 텍스트 색상 설정
+	Menu();// 메뉴 함수 호출
 
-	system("pause");//to pause the console window
+	system("pause");// 콘솔창 일시정지
 }
-/* ------------------------------ E N D ---------------------------------- */
+/* ------------------------------ 끝 ---------------------------------- */
