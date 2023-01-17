@@ -13,6 +13,7 @@ SCREEN_HEIGHT = 800
 TYPE_SMALL = 1
 TYPE_MIDDLE = 2
 TYPE_BIG = 3
+items = pygame.sprite.Group()
 
 # 총알
 class Bullet(pygame.sprite.Sprite):
@@ -79,6 +80,25 @@ class Enemy(pygame.sprite.Sprite):
        self.down_imgs = enemy_down_imgs
        self.speed = 2
        self.down_index = 0
+
+    def move(self):
+        self.rect.top += self.speed
+
+
+
+    def die(self, heart_img):
+        heart = Heart(heart_img,self.rect.topleft)
+        items.add(heart)
+
+
+# 아이템 하트
+class Heart(pygame.sprite.Sprite):
+    def __init__(self, heart_img, init_pos):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = heart_img
+        self.rect = self.image.get_rect()
+        self.rect.topleft = init_pos
+        self.speed = 1.1
 
     def move(self):
         self.rect.top += self.speed
