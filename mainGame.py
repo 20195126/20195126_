@@ -33,7 +33,7 @@ def saveHighScore(s):
 # 게임 초기화
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption('飞机大战')
+pygame.display.set_caption('Shooting Game')
 
 # 게임 음악 불러오기
 bullet_sound = pygame.mixer.Sound('resources/sound/bullet.wav')
@@ -55,9 +55,9 @@ plane_img = pygame.image.load(filename)
 
 # 플레이어 관련 매개변수 설정
 player_rect = []
-player_rect.append(pygame.Rect(0, 99, 102, 126))        # 玩家精灵图片区域
+player_rect.append(pygame.Rect(0, 99, 102, 126))        # 플레이어 스프라이트 이미지 영역
 player_rect.append(pygame.Rect(165, 360, 102, 126))
-player_rect.append(pygame.Rect(165, 234, 102, 126))     # 玩家爆炸精灵图片区域
+player_rect.append(pygame.Rect(165, 234, 102, 126))     # 플레이어 폭발 스프라이트 이미지 영역
 player_rect.append(pygame.Rect(330, 624, 102, 126))
 player_rect.append(pygame.Rect(330, 498, 102, 126))
 player_rect.append(pygame.Rect(432, 624, 102, 126))
@@ -87,9 +87,9 @@ enemy_frequency = 0
 
 player_down_index = 16
 
+life = 3
 score = 0
 playtime = 0
-
 timeChecker = time.time()
 
 clock = pygame.time.Clock()
@@ -106,10 +106,10 @@ while running:
 
     # isStop이 true인 동안 wait상태
     while isStop:
-        clock.tick(45)
-        score_font = pygame.font.Font(None, 36)
-        score_text = score_font.render("Pause", True, (128, 128, 128))
-        text_rect = score_text.get_rect()
+        clock.tick(50) # FPS 설정
+        score_font = pygame.font.Font(None, 36)   # pygame,텍스트 출력, 글꼴 지정
+        score_text = score_font.render("Pause", True, (0, 0, 0)) # 텍스트,안티앨리어싱여부,색지정RGB
+        text_rect = score_text.get_rect() 
         text_rect.centerx = round(SCREEN_WIDTH / 2)
         text_rect.centery = round(SCREEN_HEIGHT / 2)
         screen.blit(score_text, text_rect)
@@ -156,7 +156,10 @@ while running:
         if pygame.sprite.collide_circle(enemy, player):
             enemies_down.add(enemy)
             enemies1.remove(enemy)
-            player.is_hit = True
+            life -= 1
+            if life <= 0:
+                player.is_hit = True
+                break
             game_over_sound.play()
             break
         if enemy.rect.top > SCREEN_HEIGHT:
@@ -176,6 +179,7 @@ while running:
         screen.blit(player.image[player.img_index], player.rect)
         # 비행기가 애니메이션 효과를 갖도록 이미지 인덱스를 변경하십시오.
         player.img_index = shoot_frequency // 8
+        game_over_sound.play() # 
     else:
         player.img_index = player_down_index // 8
         screen.blit(player.image[player.img_index], player.rect)
@@ -238,13 +242,13 @@ saveHighScore(score)
 screen.blit(game_over, (0, 0))
 
 font = pygame.font.Font(None, 48) #
-text = font.render('Score: '+ str(score), True, (255, 255, 255))
+text = font.render('Your Score: '+ str(score), True, (0, 0, 0))
 text_rect = text.get_rect()
 text_rect.centerx = screen.get_rect().centerx
 text_rect.centery = screen.get_rect().centery + 24
 screen.blit(text, text_rect)
 font = pygame.font.Font(None, 48)
-text = font.render('HighScore: '+ str(loadHighScore()), True, (255, 255, 255))
+text = font.render('High Score: '+ str(loadHighScore()), True, (255, 255, 255))
 text_rect = text.get_rect()
 text_rect.centerx = screen.get_rect().centerx
 text_rect.centery = screen.get_rect().centery + 72
