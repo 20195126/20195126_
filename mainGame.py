@@ -224,7 +224,6 @@ while running:
     enemies1.draw(screen)
     items.draw(screen)
 
-    # 무승부 점수
     score_font = pygame.font.Font(None, 36)
     score_text = score_font.render(str(score), True, (128, 128, 128))
     text_rect = score_text.get_rect()
@@ -275,7 +274,7 @@ saveHighScore(score)
 screen.blit(game_over, (0, 0))
 
 font = pygame.font.Font(None, 48) #
-text = font.render('Your Score: '+ str(score), True, (0, 0, 0))
+text = font.render('Your Score: '+ str(score), True, (128, 128, 128))
 text_rect = text.get_rect()
 text_rect.centerx = screen.get_rect().centerx
 text_rect.centery = screen.get_rect().centery + 24
