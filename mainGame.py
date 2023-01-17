@@ -69,14 +69,41 @@ enemy_frequency = 0
 player_down_index = 16
 
 score = 0
+playtime = 0
+
+timeChecker = time.time()
 
 clock = pygame.time.Clock()
-
+isStop = False
 running = True
 
 while running:
     # 게임의 최대 프레임 속도를 60으로 제어
     clock.tick(45)
+
+      # 플레이 시간 추가
+    playtime += time.time() - timeChecker
+    timeChecker = time.time()
+
+    # isStop이 true인 동안 wait상태
+    while isStop:
+        clock.tick(45)
+        score_font = pygame.font.Font(None, 36)
+        score_text = score_font.render("Pause", True, (128, 128, 128))
+        text_rect = score_text.get_rect()
+        text_rect.centerx = round(SCREEN_WIDTH / 2)
+        text_rect.centery = round(SCREEN_HEIGHT / 2)
+        screen.blit(score_text, text_rect)
+        pygame.display.update()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            # 스페이스바를 누르면 게임 재개
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    isStop = False
+        timeChecker = time.time()
 
     # 총알 발사 빈도 조절, 총알 발사
     if not player.is_hit:
@@ -167,7 +194,13 @@ while running:
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
-            
+
+     # 스페이스 바를 누르면 게임 일시정지
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                isStop = True
+
+
     # 키보드 이벤트 수신
     key_pressed = pygame.key.get_pressed()
     # 플레이어가 맞으면 작동하지 않습니다.
