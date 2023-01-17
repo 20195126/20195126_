@@ -4,12 +4,31 @@
 @저자: 레오
 """
 
+import time
 import pygame
 from sys import exit
+from pygame.image import save
 from pygame.locals import *
 from gameRole import *
 import random
 
+
+def loadHighScore():
+    try:
+        f = open("score", 'r')
+        s = int(f.readline())
+        f.close()
+    except:
+        return 0
+    return s
+
+def saveHighScore(s):
+    savedScore = loadHighScore()
+    if savedScore < s:
+        f = open("score", 'w')
+        f.write(str(s))
+        f.close()
+    return
 
 # 게임 초기화
 pygame.init()
@@ -214,13 +233,21 @@ while running:
         if key_pressed[K_d] or key_pressed[K_RIGHT]:
             player.moveRight()
 
+saveHighScore(score)
 
-font = pygame.font.Font(None, 48)
-text = font.render('Score: '+ str(score), True, (255, 0, 0))
+screen.blit(game_over, (0, 0))
+
+font = pygame.font.Font(None, 48) #
+text = font.render('Score: '+ str(score), True, (255, 255, 255))
 text_rect = text.get_rect()
 text_rect.centerx = screen.get_rect().centerx
 text_rect.centery = screen.get_rect().centery + 24
-screen.blit(game_over, (0, 0))
+screen.blit(text, text_rect)
+font = pygame.font.Font(None, 48)
+text = font.render('HighScore: '+ str(loadHighScore()), True, (255, 255, 255))
+text_rect = text.get_rect()
+text_rect.centerx = screen.get_rect().centerx
+text_rect.centery = screen.get_rect().centery + 72
 screen.blit(text, text_rect)
 
 while 1:
