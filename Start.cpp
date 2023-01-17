@@ -34,7 +34,11 @@ bool validate(string expressions, char tests[]) {
 /* ------------------------------ 끝 ---------------------------------- */
 
 
+<<<<<<< Updated upstream
 #pragma  region structures 
+=======
+#pragma  region structures
+>>>>>>> Stashed changes
 // 데이터를 저장할 Stucture 학생 생성
 struct users {
 	char username[20], password[20];
@@ -1154,4 +1158,8 @@ int main() {
 
 	system("pause");// 콘솔창 일시정지
 }
+<<<<<<< Updated upstream
 /* ------------------------------ 끝 ---------------------------------- */
+=======
+/* ------------------------------ 끝 ---------------------------------- */
+>>>>>>> Stashed changes
