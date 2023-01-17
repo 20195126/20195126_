@@ -114,7 +114,7 @@ while running:
     while isStop:
         clock.tick(50) # FPS 설정
         score_font = pygame.font.Font(None, 36)   # pygame,텍스트 출력, 글꼴 지정
-        score_text = score_font.render("Pause", True, (0, 0, 0)) # 텍스트,안티앨리어싱여부,색지정RGB
+        score_text = score_font.render("Pause", True, (128, 128, 128)) # 텍스트,안티앨리어싱여부,색지정RGB
         text_rect = score_text.get_rect() 
         text_rect.centerx = round(SCREEN_WIDTH / 2)
         text_rect.centery = round(SCREEN_HEIGHT / 2)
