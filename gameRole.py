@@ -13,7 +13,7 @@ SCREEN_HEIGHT = 800
 TYPE_SMALL = 1
 TYPE_MIDDLE = 2
 TYPE_BIG = 3
-items = pygame.sprite.Group()
+items = pygame.sprite.Group() # A container class to hold and manage multiple Sprite objects.
 
 # 총알
 class Bullet(pygame.sprite.Sprite):
@@ -102,3 +102,22 @@ class Heart(pygame.sprite.Sprite):
 
     def move(self):
         self.rect.top += self.speed
+
+# score 파일에서 최고 점수를 가져오는 함수
+def loadHighScore():
+    try:
+        f = open("score", 'r')
+        s = int(f.readline())
+        f.close()
+    except:
+        return 0
+    return s
+
+# score 파일에 최고 점수를 저장하는 함수
+def saveHighScore(s):
+    savedScore = loadHighScore()
+    if savedScore < s:
+        f = open("score", 'w')
+        f.write(str(s))
+        f.close()
+    return
