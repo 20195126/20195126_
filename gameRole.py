@@ -13,8 +13,9 @@ SCREEN_HEIGHT = 800
 TYPE_SMALL = 1
 TYPE_MIDDLE = 2
 TYPE_BIG = 3
+items = pygame.sprite.Group() # A container class to hold and manage multiple Sprite objects.
 
-# 子弹类
+# 총알
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, bullet_img, init_pos):
         pygame.sprite.Sprite.__init__(self)
@@ -26,19 +27,20 @@ class Bullet(pygame.sprite.Sprite):
     def move(self):
         self.rect.top -= self.speed
 
-# 玩家类
+# 플레이어 클래스
 class Player(pygame.sprite.Sprite):
     def __init__(self, plane_img, player_rect, init_pos):
         pygame.sprite.Sprite.__init__(self)
-        self.image = []                                 # 用来存储玩家对象精灵图片的列表
+        self.image = []                                 # 플레이어 개체 스프라이트 이미지를 저장하는 데 사용되는 목록
+
         for i in range(len(player_rect)):
-            self.image.append(plane_img.subsurface(player_rect[i]).convert_alpha())
-        self.rect = player_rect[0]                      # 初始化图片所在的矩形
-        self.rect.topleft = init_pos                    # 初始化矩形的左上角坐标
-        self.speed = 8                                  # 初始化玩家速度，这里是一个确定的值
-        self.bullets = pygame.sprite.Group()            # 玩家飞机所发射的子弹的集合
-        self.img_index = 0                              # 玩家精灵图片索引
-        self.is_hit = False                             # 玩家是否被击中
+          self.image.append(plane_img.subsurface(player_rect[i]).convert_alpha())
+        self.rect = player_rect[0]                      # 그림이 있는 직사각형 초기화
+        self.rect.topleft = init_pos                    # 사각형의 왼쪽 위 모서리 좌표를 초기화합니다.
+        self.speed = 8                                  # 플레이어 속도를 초기화합니다. 여기에 특정 값이 있습니다.
+        self.bullets = pygame.sprite.Group()            # 플레이어의 항공기에서 발사된 총알 모음
+        self.img_index = 0                              # 플레이어 스프라이트 이미지 인덱스
+        self.is_hit = False                             # 플레이어가 맞았는지 여부
 
     def shoot(self, bullet_img):
         bullet = Bullet(bullet_img, self.rect.midtop)
@@ -68,7 +70,7 @@ class Player(pygame.sprite.Sprite):
         else:
             self.rect.left += self.speed
 
-# 敌人类
+# 적 클래스
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, enemy_img, enemy_down_imgs, init_pos):
        pygame.sprite.Sprite.__init__(self)
@@ -81,3 +83,41 @@ class Enemy(pygame.sprite.Sprite):
 
     def move(self):
         self.rect.top += self.speed
+
+
+
+    def die(self, heart_img):
+        heart = Heart(heart_img,self.rect.topleft)
+        items.add(heart)
+
+
+# 아이템 하트
+class Heart(pygame.sprite.Sprite):
+    def __init__(self, heart_img, init_pos):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = heart_img
+        self.rect = self.image.get_rect()
+        self.rect.topleft = init_pos
+        self.speed = 1.1
+
+    def move(self):
+        self.rect.top += self.speed
+
+# score 파일에서 최고 점수를 가져오는 함수
+def loadHighScore():
+    try:
+        f = open("score", 'r')
+        s = int(f.readline())
+        f.close()
+    except:
+        return 0
+    return s
+
+# score 파일에 최고 점수를 저장하는 함수
+def saveHighScore(s):
+    savedScore = loadHighScore()
+    if savedScore < s:
+        f = open("score", 'w')
+        f.write(str(s))
+        f.close()
+    return
